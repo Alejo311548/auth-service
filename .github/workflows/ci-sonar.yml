@@ -43,6 +43,7 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.java.binaries=build/classes/java/main
             -Dsonar.tests=src/test/java
+            -Dsonar.sources=src/main/java
             -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml
             -Dsonar.qualitygate.wait=true
             -Dsonar.java.libraries=build/classes/java/main
