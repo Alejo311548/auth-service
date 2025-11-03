@@ -1,32 +1,25 @@
-name: CI - Build, Test & SonarCloud (Gradle)
+name: CI - Build, Test & SonarCloud
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
+    types: [opened, synchronize, reopened]
 
 jobs:
   build-test-sonar:
     runs-on: ubuntu-latest
 
     steps:
-      # Clonar repositorio
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Configurar JDK 17
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
-      # Cache de Gradle
       - name: Cache Gradle
         uses: actions/cache@v4
         with:
@@ -37,21 +30,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      # Build y ejecución de tests con JaCoCo
-      - name: Build and run tests
-        run: ./gradlew clean test jacocoTestReport
+      - name: Build and test
+        run: ./gradlew clean build test jacocoTestReport
 
-      # SonarCloud Scan
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5.0.0
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
             -Dsonar.projectKey=Alejo311548_auth-service
             -Dsonar.organization=alejo311548
             -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.login=$SONAR_TOKEN
-            -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/report.xml
+            -Dsonar.java.binaries=build/classes/java/main
+            -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml
             -Dsonar.qualitygate.wait=true
-#fin
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
