@@ -54,3 +54,4 @@ jobs:
             -Dsonar.login=$SONAR_TOKEN
             -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/report.xml
             -Dsonar.qualitygate.wait=true
+#fin
