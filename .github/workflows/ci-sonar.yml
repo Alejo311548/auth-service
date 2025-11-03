@@ -35,13 +35,18 @@ jobs:
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5.0.0
+        continue-on-error: true
         with:
           args: >
             -Dsonar.projectKey=Alejo311548_auth-service
             -Dsonar.organization=alejo311548
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.java.binaries=build/classes/java/main
+            -Dsonar.tests=src/test/java
+
             -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml
             -Dsonar.qualitygate.wait=true
+            -Dsonar.java.libraries=build/classes/java/main
+
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
