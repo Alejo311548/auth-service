@@ -15,15 +15,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Clonar repositorio
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Configurar JDK 17
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
+      # Cache de Gradle
       - name: Cache Gradle
         uses: actions/cache@v4
         with:
@@ -34,16 +37,20 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      # Build y ejecución de tests con JaCoCo
       - name: Build and run tests
         run: ./gradlew clean test jacocoTestReport
 
+      # SonarCloud Scan 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5.0.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          projectKey: Alejo311548_auth-service
-          organization: Alejo311548
-          host: https://sonarcloud.io
-          token: ${{ secrets.SONAR_TOKEN }}
-          extra-properties: |
-            sonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/report.xml
-            sonar.qualitygate.wait=true
+          args: >
+            -Dsonar.projectKey=Alejo311548_auth-service
+            -Dsonar.organization=Alejo311548
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.login=$SONAR_TOKEN
+            -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/report.xml
+            -Dsonar.qualitygate.wait=true
