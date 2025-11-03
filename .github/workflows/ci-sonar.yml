@@ -9,8 +9,8 @@ types: [opened, synchronize, reopened]
 jobs:
 build-test-sonar:
 runs-on: ubuntu-latest
-  
-  ```
+
+
 steps:
   # Clonar repositorio
   - name: Checkout repository
