@@ -10,6 +10,14 @@ group = 'com.fleetguard360'
 version = '1.0-SNAPSHOT'
 description = ''
 
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+
 repositories {
     mavenCentral()
 }
