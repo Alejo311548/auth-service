@@ -58,6 +58,25 @@ jacocoTestReport {
     }
 }
 
+afterEvaluate {
+    jacocoTestReport {
+        classDirectories.setFrom(
+                files(classDirectories.files.collect {
+                    fileTree(dir: it, exclude: [
+
+                            '**/Fleetguard360Application.class',
+                            '**/configuration/**',
+                            '**/presentation/dto/**',
+                            '**/persistence/entity/enums/**',
+                            '**/SwaggerConfig.class',
+                            '**/SecurityConfig.class',
+                            '**/ApiErrorResDTO.class'
+                    ])
+                })
+        )
+    }
+}
+
 sonar {
     properties {
         property "sonar.projectKey", "Alejo311548_auth-service"
