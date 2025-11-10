@@ -58,6 +58,8 @@ jacocoTestReport {
     }
 }
 
+
+//Rutas que se excluyen para cobertura. No son lógica.
 afterEvaluate {
     jacocoTestReport {
         classDirectories.setFrom(
